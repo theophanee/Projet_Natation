@@ -1,0 +1,1332 @@
+::::::::::::::
+Athlete.java
+::::::::::::::
+
+/*Classe mère qui permet de creer nos sportifs*/
+public abstract class Athlete implements Temps{
+	
+	public abstract void nage(String type_nage);/*fait nager l'athlete*/
+	
+	public abstract boolean testDopage();/*permet de tester si l'athlete est doper*/
+	
+	public abstract void position( int x , int y );/*positionne 'athlete'*/
+	
+	public abstract int getI();/*obtenir ses positions*/
+	
+	public abstract int getJ();
+	
+	public abstract boolean getAllee();
+	
+	public abstract void setAllee( boolean b );
+	
+	public abstract void setANager( boolean b );/*permet de changer la direction de l'athlete*/
+	
+	public abstract int getMin() ;/*obtenir les temps*/
+	
+	public abstract int getSec() ;
+	
+	public abstract int getMs() ;
+	
+	public abstract void setMin( int min );/*permet de modifier les temps*/
+	
+	public abstract void setSec( int sec );
+	
+	public abstract void setMs( int ms );
+	
+	public abstract void setFini( boolean b );/*attribuer une arrivée à l'athlete*/
+	
+	public abstract boolean getFini();/*savoir si l'athlete a fini sa course*/
+	
+
+}
+::::::::::::::
+Nageur.java
+::::::::::::::
+/*2eme niveau*/
+
+public abstract class Nageur extends Athlete {
+	public abstract void temps_nage(String type_nage,int longueur);
+	/*methode qui sert à donner un temps au nageur dans la nage et la longueur indiquées*/
+
+}
+::::::::::::::
+Temps.java
+::::::::::::::
+/*permet de convertir le temps*/
+
+public interface Temps {
+	
+	public void temps();
+}
+::::::::::::::
+Femme.java
+::::::::::::::
+
+/*pour creer des portives*/
+public class Femme extends Nageur{
+	
+	/*Les Instances*/
+	private String nom;
+	private String prenom;
+	private String pays;
+	/*le temps en min sec ms*/
+	private int min;
+	private int sec;
+	private int ms;
+	private int positionI , positionJ ; /*positionner dans la piscine*/
+	private boolean aNager = false ; /*savoir si l'athlete à sauter*/
+	private boolean allee ;/*savoir si il est au retour*/
+	private boolean fini ;/*savoir si il est arrivé*/
+
+	
+	public Femme(String pays,String nom,String prenom) {
+		/*constructeur*/
+		this.pays = pays;
+		this.nom = nom;
+		this.prenom = prenom;
+		allee = false ;
+		fini = false ;
+	
+	}
+	
+	/*genre aleatoirement un entier*/
+	public static int rendAlea( int inf , int sup ) {
+		
+		return (int)(Math.random() * ( sup - inf + 1 ) + inf);
+	
+	}
+	
+	public boolean testDopage() {
+		
+		System.out.println( "Verificaion anti-dopage de " + nom + " " + prenom );
+		int doper = (int)(Math.random() * 60 ) ;
+		return ( doper == 1 );
+	}
+	
+	
+	public void temps_nage( String typeDeNage , int longueur ) {
+		
+		double coef = longueur * 0.004;
+		longueur = longueur / 100 ;
+		
+		if( typeDeNage == "papillon" ) {
+			sec = rendAlea( 55 , 80 ) * longueur;
+			sec += sec*coef ;
+		}
+		if( typeDeNage == "brasse" ) {
+			sec = rendAlea( 64 , 90 ) * longueur;
+			sec += sec*coef ;
+		}
+		if( typeDeNage == "dos" ) {			
+			sec = rendAlea( 58 , 75 ) * longueur;
+			sec += sec*coef ;
+		}
+		if( typeDeNage == "libre" ) {
+			sec = rendAlea ( 53 , 90 ) * longueur;
+			sec += sec*coef ;
+		}
+		else {
+			sec = rendAlea( 53 , 72 ) * longueur;
+			sec += sec*coef ;
+		}
+		
+	}
+
+	/*permet de convertir les secondes en minutes/secondes*/
+	public void temps() {
+		
+		ms = (int)(Math.random()*100);
+		min = sec / 60 ;
+		sec = sec % 60 ;
+		
+	}
+	
+	
+	public void position(int x , int y) {
+		
+		positionI = x ;
+		positionJ = y ;
+		
+	}
+	
+	public void nage(String typeDeNage) {
+		
+		System.out.println(nom + " nage "+typeDeNage);
+	
+	}
+	
+	
+	public void setANager( boolean b ) {
+		aNager = b ;
+		
+	}
+	
+	public void setMin(int min) {
+		this.min = min ;
+		
+	}
+
+	public void setSec(int sec) {
+		this.sec = sec ;
+		
+	}
+
+	public void setMs(int ms) {
+		this.ms = ms ;
+		
+	}
+	
+	public void setAllee( boolean b ) {
+		allee = b ;
+	}
+	
+	public void setFini( boolean b ) {
+		if ( this != null )
+			fini = b ;
+	}
+	
+	
+	public boolean getAllee() {
+		return allee ;
+	}
+	
+	public int getMin() {
+		return min ;
+	}
+	
+	public int getSec() {
+		return sec ;
+	}
+	
+	public int getMs() {
+		return ms ;
+	}
+	
+	public int getI() {
+		return positionI;
+	}
+	
+	public int getJ() {
+		return positionJ;
+	}
+	
+	public boolean getFini() {
+		return fini ;
+	}
+	/*retourne les informations du nageur*/
+	public String toString() {
+		
+		if ( aNager == true ) {
+			return "(" + pays + ") Nageuse " + nom + " " + prenom + " a fait un temps de " + min + "min " + sec + "sec " + ms ;
+		}
+			
+		return "(" + pays + ") Nageuse " + nom + " " + prenom; 
+	
+	}
+
+	
+
+
+
+}
+::::::::::::::
+Homme.java
+::::::::::::::
+
+/*creer des sportifs*/
+public class Homme extends Nageur{
+	
+	/*Les Instances*/
+	private String nom;
+	private String prenom;
+	private String pays;
+	/*le temps en min sec ms*/
+	private int min;
+	private int sec;
+	private int ms;
+	private int positionI , positionJ ; /*positionner dans la piscine*/
+	private boolean aNager = false ; /*savoir si l'athlete à sauter*/
+	private boolean allee ;/*savoir si il est au retour*/
+	private boolean fini ;/*savoir si il est arrivé*/
+
+	
+	public Homme(String pays , String nom , String prenom) {
+		/*constructeur*/
+		this.pays = pays;
+		this.nom = nom;
+		this.prenom = prenom;
+		allee = false;
+		fini = false ;
+	
+	}
+	
+	
+	/*genre aleatoirement un entier*/
+	public static int rendAlea( int inf , int sup ) {
+		
+		return (int)(Math.random() * ( sup - inf + 1 ) + inf );
+	
+	}
+	
+	
+	public void temps_nage( String typeDeNage , int longueur ) {
+		
+		double coef = longueur * 0.0033 ;
+		longueur = longueur / 100 ;
+		
+		if( typeDeNage == "papillon" ) {
+			sec = rendAlea( 55 , 80 ) * longueur;
+			sec += sec*coef ;
+		}
+		if( typeDeNage == "brasse" ) {
+			sec = rendAlea( 64 , 90 ) * longueur;
+			sec += sec*coef ;
+		}
+		if( typeDeNage == "dos" ) {			
+			sec = rendAlea( 58 , 75 ) * longueur;
+			sec += sec*coef ;
+		}
+		if( typeDeNage == "libre" ) {
+			sec = rendAlea ( 53 , 90 ) * longueur;
+			sec += sec*coef ;
+		}
+		else {
+			sec = rendAlea( 53 , 72 ) * longueur;
+			sec += sec*coef ;
+		}
+		
+	}
+	
+	public void temps() {
+		
+		ms = (int)(Math.random()*100);
+		min = sec / 60 ;
+		sec = sec % 60 ;
+	}
+	
+	
+	public boolean testDopage() {
+		
+		System.out.println( "Verificaion anti-dopage de " + nom + " " + prenom );
+		int doper = (int)(Math.random() * 60 ) ;
+		return ( doper == 1 );
+	}
+	
+	 
+	
+	public void position(int x , int y) {
+		
+		positionI = x ;
+		positionJ = y ;
+		
+	}
+	
+	
+	
+	public void nage(String typeDeNage) {
+		
+		System.out.println(nom + " nage "+typeDeNage);
+	
+	}
+	
+	public void setANager( boolean b ) {
+		aNager = b ;
+		
+	}
+	
+	
+	public void setMin(int min) {
+		this.min = min ;
+		
+	}
+
+	public void setSec(int sec) {
+		this.sec = sec ;
+		
+	}
+
+	public void setMs(int ms) {
+		this.ms = ms ;
+		
+	}
+	
+	public void setAllee( boolean  b ) {
+		if ( this != null )
+			allee = b ;
+	}
+	
+	public void setFini( boolean b ) {
+		if ( this != null )
+			fini = b ;
+	}
+
+	
+	public boolean getAllee() {
+		
+		return allee ;
+	}
+	
+	public int getMin() {
+		return min ;
+	}
+	
+	public int getSec() {
+		return sec ;
+	}
+	
+	public int getMs() {
+		return ms ;
+	}
+	
+	public int getI() {
+		return positionI;
+	}
+	
+	public int getJ() {
+		return positionJ;
+	}
+	
+	public boolean getFini() {
+		return fini;
+	}
+	
+	/*retourne les informations du nageur*/
+	public String toString() {
+		
+		if ( aNager == true ) {
+			return "(" + pays + ") Nageur " + nom + " " + prenom + " a fait un temps de " + min + "min " + sec + "sec " + ms ;
+		}
+			
+		return "(" + pays + ") Nageur " + nom + " " + prenom; 
+	
+	}
+
+
+
+
+
+}
+::::::::::::::
+MyException.java
+::::::::::::::
+/*permet de gérer les exceptions*/
+
+public class MyException extends Exception {
+
+
+	public MyException(String s ) {/*constructeur*/
+		super(s);
+	}
+	
+	public MyException() {/*gerer le temps*/
+		super("Attention il y a un problème de chrono");
+	}
+	
+	public MyException( int n ) {/*gerer le nombre de couloirs*/
+		super( "La limite n'est pas respecter, choisissez un nombre entre 3 et 8 " );
+		
+	}
+	
+	public MyException( Piscine p1 , Piscine p2 ) {/*gerer si un clonage a bien fonctionner*/
+		super ( "Le clonage n'a pas fonctionner \n"  );
+	}
+
+}
+::::::::::::::
+TabPlein.java
+::::::::::::::
+/*gere les depassement de tableau*/
+
+public class TabPlein extends Exception{
+
+    public TabPlein(String message){
+        super(message);
+    }
+}::::::::::::::
+Piscine.java
+::::::::::::::
+
+/*creer une piscine*/
+public class Piscine{
+	
+	/*Les Instances*/
+	private int temperature;/*temperature de l'eau*/
+	protected Athlete[] nageurs;/*tableau qui contient les nageurs dans la piscine*/
+	private int nbNageur = 0;
+	private int nbNageurTab = 0 ;
+	private int nbcouloirs;
+	private static int cpt = 0;/*compteur static pour avoir le nombre d'instances de Piscine*/
+	private int numero;/*prendra son identifiant*/
+	private String[][] tab;/*tableau 2D qui permet de visualiser la simulation*/
+	private int taille;
+	private String typeDeNage;
+	private int longueur;/*longueur de la piscine*/
+	
+	private int place = 0 ;/*position classement*/
+	private Athlete[] classement ;/*tableau pour les gagnants*/
+	
+	private int[] tabSec ; /*tableau qui prend l'ensemble des chronos*/
+	private int iSec = 0 ;/*position dans le tableau du temps*/
+	
+	
+	public Piscine( int temp , int couloirs ) {/*constructeur*/
+		cpt++;
+		numero=cpt;/*prend son identifiant*/
+		
+		/*initialise la temperature de l'eau ainsi que le nombres de couloirs de la piscine, donc son nombre de nageurs, de temps,etc*/
+		temperature = temp;
+		nbcouloirs = couloirs;
+		nageurs = new Athlete[nbcouloirs];
+		
+		tabSec = new int[nbcouloirs];
+		
+		classement = new Athlete [ nbcouloirs ];
+		
+		taille = couloirs * 2 - 1 ;
+		tab = new String [taille][85];
+		
+		for( int i=0 ; i < taille ; i++ ) {/*creer le tableau 2D*/
+			
+			tab[i][0] = "|" ;
+			tab[i][tab[i].length-1] = "|" ;
+			
+			for( int j=1 ; j < tab[i].length-1 ; j++ ) {
+				
+				if( i % 2 != 0 ) {
+					if( j % 7 == 0 ) {
+						tab[i][j] = "o" ;
+					}else {
+						tab[i][j] = "-" ;
+					}
+				}
+				else {
+					tab[i][j] = " " ;
+				}
+
+				
+			}
+		}
+		
+	}
+	
+	/*accesseur  sur cpt*/
+	public static int nombrePiscine() {
+		
+		return cpt;
+	}
+	
+	/*affiche la piscine*/
+	public void afficherPiscine() {
+		
+		
+		System.out.println("\n\n\n\n|===================================================================================|");
+		for( int i=0 ; i < taille ; i++ ) {
+			for( int j=0 ; j < tab[i].length ; j++ ) {
+				System.out.print( tab[i][j] );
+			}System.out.println();
+		}System.out.print("|===================================================================================|\n\n\n\n");
+		
+		
+		
+	}
+	
+	/*methode de clonage*/
+	public Piscine clone() {
+		
+		return new Piscine( this.temperature , this.nbcouloirs );
+		
+	}
+	
+	/*savoir si la piscine est pleine ou non*/
+	public boolean piscinePleine() {
+		
+		return ( nbNageur < nbcouloirs ) ;
+	
+	}
+	
+	/*ajoute le nageur en argument à la piscine*/
+	public void ajouteNageur( Athlete a ) throws TabPlein{/*gere l'exception si le tableau est plein*/
+		
+		if( piscinePleine() ) {
+			
+			if ( a != null ) {
+			
+				
+				nageurs[nbNageur] = a ;
+				nbNageur++;
+				
+			}
+			
+		}else{
+			throw new TabPlein("Piscine pleine");
+		}
+	
+	}
+	
+	/*fait nager les nageurs*/
+	/*affiche le type d'epreuve etc*/
+	public void faireNager( String typeDeNage , int longueur) {
+		
+		this.typeDeNage = typeDeNage ;
+		this.longueur = longueur ;
+		
+		System.out.println("______________________________________________________________________________________\n");
+		
+		System.out.println("\nPiscine " + numero );
+		
+		System.out.println("Epreuve : " + longueur + " m�tres nage " +typeDeNage + "\n");
+		
+		for( int i=0 ; i < nbNageur ; i++ ) {
+			
+			if ( nageurs[i] != null ) {
+				
+				nageurs[i].nage( typeDeNage );
+				((Nageur) nageurs[i]).temps_nage( typeDeNage , longueur );
+				
+				tabSec[ iSec ] = nageurs[i].getSec(); iSec ++ ;
+				
+				
+			}
+
+			
+		}
+	}
+	
+	/*simule une course*/
+	/*deplace les nageurs dans la piscine*/
+	/*gere les allees retour*/
+	public void courses() {
+		
+		for( int i =0 ; i < nbNageur ; i++ ) {
+			
+			int nage = (int)( Math.random() * 5 ) ;/*entier aleatoire qui permet de savoir si le nageur avance ou non*/
+			/*se qui permet de ne pas avoir tout les nageurs à la meme vitesse dans la piscine*/
+			
+			
+			if ( nage != 1 && nageurs[i] != null && nageurs[i].getAllee() == false ) {
+				
+				tab[ nageurs[i].getI() ][ nageurs[i].getJ() ] = " " ;
+				
+				nageurs[i].position( nageurs[i].getI() , nageurs[i].getJ() + 1 ) ;
+				tab[ nageurs[i].getI() ][ nageurs[i].getJ() ] = "X" ;
+				
+				
+			}
+			
+			if ( nageurs[i] != null && nageurs[i].getJ()  == 83  ) {
+				nageurs[i].setAllee( true );
+			}
+			
+			
+			if ( nage != 1 && nageurs[i] != null && nageurs[i].getAllee() == true && retour ( nageurs[i] ) == true ) {
+				
+				tab[ nageurs[i].getI() ][ nageurs[i].getJ() ] = " " ;
+					
+				nageurs[i].position( nageurs[i].getI() , nageurs[i].getJ() - 1 ) ;
+				tab[ nageurs[i].getI() ][ nageurs[i].getJ() ] = "X" ;
+				
+				nageurs[i].setAllee( true );
+				
+				
+			}	
+		}
+	}
+	
+	/*savoir si des nageurs ont finileur course*/
+	/*leur attribue une position d'arrivée*/
+	public void arriver() {
+			
+		for( int i = 0 ; i < nbNageur ; i ++ ) {
+				
+			if  ( nageurs[i] != null &&  nageurs[i].getAllee()  == true && nageurs[i].getJ() == 1 && nageurs[i].getFini()  == false ) {
+				
+				nageurs[i].setFini( true );
+				System.out.println (nageurs[i].toString() + " est arrivée ! ");
+				nageurs[i].setANager( true );
+				donneTemps( nageurs[i] , tabSec );
+				System.out.println(nageurs[i].toString());
+					
+				classement[ place ] = nageurs[i] ;
+				place ++ ;
+			}
+		}
+	}
+	
+
+
+	/*retourne le meilleur temps dans le tableau des temps, pour le donner au premier arriver*/
+	public int meilleurTemps( int[] tab ) {
+		
+		int rang = 0 ;
+		
+		for( int i = 1 ; i < tab.length ; i++ ) {
+			
+			if( tab[rang] >= tab[i] && tab[i] != 0 ) {
+				
+				rang = i ;
+			}
+			
+		}return rang ;
+	}
+	
+
+	/*donne le meilleur temps au nageur arrivé*/
+	public void donneTemps( Athlete a , int[] tabSec ) {
+		
+		
+		a.setSec( tabSec [ meilleurTemps( tabSec ) ] );
+		a.temps();
+		tabSec[ meilleurTemps( tabSec ) ] = 10000 ;
+		
+	}
+	
+	/*savoir si tout les nageurs sont arrivés*/
+	public boolean fin() {
+		
+		for(int i = 0 ; i < nbNageur ; i++ ) {
+			
+			if( nageurs[i] != null && ( nageurs[i].getAllee()  == false || nageurs[i].getJ() != 1 ) ) {
+				return false;
+			}
+			
+		}
+		return true;
+	}
+	
+	/*savoir si il est à allee ou au retour*/
+	public boolean retour( Athlete a ) {
+		
+		return ( a.getJ() > 1 );
+	
+	}
+	
+	/*teste l'ensemble des nageurs */
+	public void testdopage() {
+		
+		System.out.println("\nPiscine " + numero );
+		
+		for( int i =0 ; i < nbNageur ; i++ ) {
+			/*si un nageur est positif au test, il est disqualifier et retirer de la course*/
+			if ( nageurs[i].testDopage() == true ) {
+				System.out.println( nageurs[i].toString()  + " est disqualifier pour dopage ! " );
+				nageurs[i] = null ;
+				
+			}
+			if ( nageurs[i] != null ) {
+				
+				nageurs[i].position( nbNageurTab , 1 ) ;
+				tab[ nageurs[i].getI() ][ nageurs[i].getJ() ] = "X" ; 
+				
+			}
+			nbNageurTab += 2 ;
+
+		}
+		
+		
+		
+	}
+
+	
+	/*informations de la piscine*/
+	public String toString() {
+		
+		String p = "\nPiscine " + numero + " :\n";
+		
+		for( int i=0 ; i < nbNageur ; i++ ) {
+			
+			if ( nageurs[i] != null ) {
+				
+				p += "Couloir " + (i+1) + " : " + nageurs[i].toString()+"\n";
+			}
+			
+		}
+		
+		return p ;
+	}
+	
+	/*retourne le classement final*/
+	public String resultas() {
+		
+		String res = "Classement Final pour le " + longueur + "m " + typeDeNage + " : \n\n" ;
+		
+		for( int i = 0 ; i < place ; i++ ) {
+			res += "Position " + ( i + 1 ) + " : " + classement[i].toString() +"\n" ;
+			classement[i].setANager( false );
+		}
+		return res ;
+		
+	}
+	
+	/*retourne les recompenses aux gagnants*/
+	public String recompenses() {
+		String s= "\n\n\nRECOMPENSES" ;
+		
+		if(classement[0] != null ) {
+			s += "\n\nMedaille d'Or : \n" + classement[0].toString();
+		}if(classement[1] != null ) {
+			s += "\n\nMedaille d'Argent :\n" + classement[1].toString();
+		}if(classement[2] != null ) {
+			s += "\n\nMedaille de Bronze :\n" + classement[2].toString() ;
+		}
+		
+		return s ;
+		
+	}
+
+	
+
+}
+::::::::::::::
+ScannerException.java
+::::::::::::::
+
+/*gere les exceptions des scanner, que l'on utilisera dans le main*/
+public class ScannerException extends Exception{
+
+	/*
+	 constructeurs pour un message predefinie ou un message personnel
+	 */
+	public ScannerException(int n) {
+		super("Porblème de lecture, veuillez ecrire comme suit : \n 100 , 200 , 400  ");
+	}
+	
+	
+	public ScannerException(String s ) {
+		super(s);
+	}
+
+}
+::::::::::::::
+TypeNage.java
+::::::::::::::
+/*pattern singleton*/
+public class TypeNage {
+	private static String typeDeNage ;
+	private static int cpt=0;
+	private TypeNage() {/*constructeur privé pour ne pas pouvoir l'appelé*/
+		cpt++;
+	}
+	public static String getTypeNage() {/*obtenir la nage*/
+		return typeDeNage;
+	}
+	public static void setNage(String n) {/*attribuer la nage*/
+		typeDeNage = n ;
+	}
+	
+	public static int getCpt() {/*pour verifier qu'il n'y a bien qu'une seule instance de la classe créer*/
+		return cpt;
+	}
+	
+
+}
+::::::::::::::
+Simulation.java
+::::::::::::::
+/*simulation (le main)*/
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+public class Simulation {
+	
+	public static void coucou() throws MyException{/*petit test d'exceptions*/
+		throw new MyException("Lancement de la Simulation");
+	}
+
+	
+	public static void verifieTemps( Piscine p ) throws MyException {/*permet de verifier si les temps sont correctes*/
+		
+		for( int i = 0 ; i < p.nageurs.length ; i++ ) {
+			
+			if ( p.nageurs[i] != null ){
+			
+				if ( p.nageurs[i].getMin() >60 || p.nageurs[i].getSec() > 60 || p.nageurs[i].getSec() <0 || p.nageurs[i].getMin() < 0 ) {
+					throw new MyException();
+				}
+			}
+		}	
+	}
+	
+	public static void verifieScanner( String s ) throws ScannerException {/*gere les exceptions de scanner string*/
+		
+		if ( !s.equals("crowl") && !s.equals("dos") && !s.equals("brasse") && !s.equals("papillon") && !s.equals("libre")  ) {
+			throw new ScannerException( "Porblème de lecture \"" + s + "\" veuillez ecrire comme suit : \ndos , papillon , crowl , libre , brasse " );
+		}
+	}
+	
+	public static void verifieScanner( int n, String typeScanne) throws ScannerException{/*gere les exceptions d'entiers*/
+		
+	/*le typeScanne sert à savoir quelle exception on veut gerer*/
+		if( typeScanne == "longueur" && n != 100 && n != 200 && n != 400) {/*ici la longueur de l'épreuve*/
+			throw new ScannerException("Pobleme de lecture, veuillez ecrire comme suit :\n100 , 200 , 400");
+		}
+		
+		if( typeScanne == "couloirs" && n != 3 && n != 4 && n != 5 && n != 6 && n != 7 && n != 8) {
+			throw new ScannerException("Pobleme de lecture, veuillez choisir un nombre donné");
+		}
+		
+		if( typeScanne == "piscine" && n != 1 && n != 2 && n != 3 && n != 4 ) {
+			throw new ScannerException("Problème de lecture, veuilez choisir un chiffre de 1 à 4");
+		}
+		
+	}
+	
+	public static void temp( int n ) throws MyException{/*gere la temperature de l'eau*/
+		
+		if ( n < 23 || n > 28 ) {
+			throw new MyException( "La temperature doit respecter les bornes [ 23 ; 28 ]" );
+		}
+		System.out.println( "Les piscines sont chauffées à " + n + "°C "  );
+	
+	}
+	
+	public static void coul( int n ) throws MyException{/*gere le nombre de couloirs*/
+		
+		if ( n > 2 && n < 9 ) {
+			System.out.println( "Il y a " + n + " couloirs" );
+			
+		}else {
+			throw new MyException ( n );
+		}
+	}
+	
+	public static boolean verificationClonage( Piscine p1 , Piscine p2 ) throws MyException {
+		
+		return ( p1.equals( p2 ) );
+	}
+
+	
+	
+	public static void main(String[] args) throws ScannerException {
+		
+		int done = 0 ;/*variable qui servira pour les test de Scanner*/
+		
+		try {
+			coucou();
+		}catch(MyException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		Scanner s = new Scanner (System.in );
+		
+		System.out.println( "Saisir le nombre de couloirs des piscines ( 3 à 8 ) :" );
+		int nbCouloirs = 0;
+		
+		
+		while( done != 1) {/*tant que le scanner n'obtient pas une bonne valeur, il continue de demandé à l'utilisateur de choisir*/
+			
+			try {
+				nbCouloirs = s.nextInt();
+				coul( nbCouloirs );
+				done = 1;
+			}catch ( MyException nn ) {/*si la valeur n'est pas celle espéré*/
+				System.out.println( nn.getMessage() ) ;
+					
+			}
+			catch (InputMismatchException s3) {/*si la valeur n'est pas un int*/
+				s.nextLine();
+				System.out.println("Saisi non correcte, veuillez choisir un nombre de couloirs valide (3 à 8) ");
+			}
+			
+		}
+		
+
+		
+		
+		
+
+		System.out.println( "Saisir la température de l'eau (entre 23 et 28 °C) :" );
+		int temperature = 0;
+		
+		while( done != 2) {
+			
+			try {
+				temperature = s.nextInt();
+				
+				temp( temperature );
+				done = 2 ;
+			}catch (MyException c ) {
+				s.nextLine();
+				System.out.println( c.getMessage() );
+			
+			}catch (InputMismatchException s3) {
+				s.nextLine();
+				System.out.println("Veuillez choisir un entier ");
+				
+				
+			}
+			
+		}
+		
+
+		Piscine piscineHomme=new Piscine( temperature , nbCouloirs );
+		Piscine piscineHomme2 = piscineHomme.clone();
+		
+		try {
+			verificationClonage ( piscineHomme , piscineHomme2 );
+		}catch ( MyException p ) {
+			System.out.println( p.getMessage() );
+		}
+	
+		
+		
+		
+		Piscine piscineFemme=new Piscine( temperature , nbCouloirs );/*crée les piscines*/
+		
+		
+		Piscine piscineFemme2=piscineFemme.clone();
+		
+		
+		Homme[] tabHomme1 = new Homme[8];
+		tabHomme1[0] = new Homme("USA","PHELPS","Michael");
+		tabHomme1[1] = new Homme("CHN","YANG","Sun");
+		tabHomme1[2] = new Homme("ITA","PALTRINIERI","Gregorio");
+		tabHomme1[3] = new Homme("FRA","MANAUDOU","Florent");
+		tabHomme1[4] = new Homme("BEL","TIMMERS","Pieter");
+		tabHomme1[5] = new Homme("RSA","LE CLOS","Chad");
+		tabHomme1[6] = new Homme("GBR","PEATY","Adam");
+		tabHomme1[7] = new Homme("AUS","LARKIN","Mitch");
+
+		for ( int i = 0 ; i < nbCouloirs ; i ++ ){/*ajoute les nageurs en fonction du nombre de couloirs choisis*/
+			try {
+				piscineHomme.ajouteNageur( tabHomme1[i] );
+			}catch (TabPlein tt){/*gere les sortis de taille*/
+				System.out.println(tt.getMessage());
+			}
+		}
+
+
+		Homme[] tabHomme2 = new Homme[8];
+		tabHomme2[0] = new Homme("AUS","CHALMERS","Kyle");
+		tabHomme2[1] = new Homme("RUS","CHUPKOV","Anton");
+		tabHomme2[2] = new Homme("KAZ","BALANDIN","Dmitriy");
+		tabHomme2[3] = new Homme("SIN","SCHOOLING","Joseph");
+		tabHomme2[4] = new Homme("HUN","CSEH","LASZLO");
+		tabHomme2[5] = new Homme("JPN","MASATO","Sakai");
+		tabHomme2[6] = new Homme("GRE","YIANNIOTIS","Spyridon");
+		tabHomme2[7] = new Homme("NED","WEERTMAN","Ferry");
+
+		for ( int i = 0 ; i < nbCouloirs ; i ++ ){
+			try {
+				piscineHomme2.ajouteNageur( tabHomme2[i] );
+			}catch (TabPlein tt2){
+				System.out.println(tt2.getMessage());
+			}
+		}
+		
+		
+		
+		Femme[] tabFemme = new Femme[8];
+		tabFemme[0] = new Femme("DAN","BLUME","Pernille");
+		tabFemme[1] = new Femme("CAN","OLEKSIAK","Penny");
+		tabFemme[2] = new Femme("USA","LEDECKY","Katie");
+		tabFemme[3] = new Femme("SWE","SJOSTROM","Sarah");
+		tabFemme[4] = new Femme("GBR","CARLIN","Jazmin");
+		tabFemme[5] = new Femme("AUS","MCKEON","Emma");
+		tabFemme[6] = new Femme("CHN","UANHUI","Fu");
+		tabFemme[7] = new Femme("RUS","EFIMOVA","Yuliya");
+
+		for ( int i = 0 ; i < nbCouloirs ; i ++ ){
+			try {
+				piscineFemme.ajouteNageur( tabFemme[i] );
+			}catch (TabPlein ff){
+				System.out.println(ff.getMessage());
+			}
+		}
+
+
+
+		Femme[] tabFemme2 = new Femme[8];
+		tabFemme2[0] = new Femme("HUN","KAPAS","BOGLARKA");
+		tabFemme2[1] = new Femme("ESP","BELMONTE","Mireia");
+		tabFemme2[2] = new Femme("ITA","BRUNI","Rachele");
+		tabFemme2[3] = new Femme("NED","VAN ROUWENDAAL","Sharon");
+		tabFemme2[4] = new Femme("BRA","OKIMOTO","Poliana");
+		tabFemme2[5] = new Femme("ITA","BRUNI","Rachele");
+		tabFemme2[6] = new Femme("JPN","SHIWEN","Ye");
+		tabFemme2[7] = new Femme("FRA","MUFFAT","Camille");
+
+		for ( int i = 0 ; i < nbCouloirs ; i ++ ){
+			try {
+				piscineFemme2.ajouteNageur( tabFemme2[i] );
+			}catch (TabPlein ff){
+				System.out.println(ff.getMessage());
+			}
+		}
+		
+		System.out.println( "\nTest dopage des athlètes" );
+		piscineHomme.testdopage();
+		piscineHomme2.testdopage();
+		piscineFemme.testdopage();
+		piscineFemme2.testdopage();
+		
+		System.out.println("\nPrésentation :\n\nIl y a "+ Piscine.nombrePiscine() + " piscines olympiques avec 8 couloirs maximum" );
+
+		
+
+		/*presentation des piscines avec les parametres choisis*/
+		
+		
+		piscineHomme.afficherPiscine();
+		System.out.println( piscineHomme.toString() );
+		
+		
+		piscineHomme2.afficherPiscine();
+		System.out.println( piscineHomme2.toString() );
+		
+		
+		piscineFemme.afficherPiscine();
+		System.out.println( piscineFemme.toString() );
+		
+		
+		piscineFemme2.afficherPiscine();
+		System.out.println( piscineFemme2.toString() + "\n\n" );
+
+
+		System.out.println( "Saisir la piscine \n( 1 : première piscine pour homme , 2 : deuxième piscine pour homme , 3 : première piscine pour femme , 4 : deuxième piscine pour femme)" );
+		int numPiscine = 0;
+		
+		/*demande de choisir une des piscines présentées*/
+		while( done != 3) {
+			
+			try {
+				numPiscine = s.nextInt();
+				verifieScanner( numPiscine , "piscine" );
+				done = 3 ;
+			}catch (ScannerException s3) {
+				System.out.println(s3.getMessage());
+
+			}catch (InputMismatchException s3) {
+				s.nextLine();
+				System.out.println("Saisie non correcte, veuillez choisir un entier de 1 à 4 ");
+				
+				
+			}
+			
+		}
+		
+		
+
+		
+		
+		System.out.println("Choisir la longueur \n( 100m / 200m / 400m ) ");
+		int longueur = 0;
+		
+		while( done != 4) {
+			
+			try {
+				longueur = s.nextInt();
+				verifieScanner( longueur , "longueur" );
+				done = 4 ;
+			}catch (ScannerException s2) {
+				System.out.println(s2.getMessage());	
+
+			}catch (InputMismatchException s3) {
+				s.nextLine();
+				System.out.println("Saisie non correcte, veuillez choisir un entier de une longueur de 100, 200 ou 400m ");
+				
+				
+			}
+			
+		}
+		
+
+		
+		Scanner ss = new Scanner (System.in);
+		
+		System.out.println( "Choisir l'épreuve\n( papillon , brasse , dos , crowl , libre )" ) ;
+		String typeNage = "";
+		
+		
+		while( done != 5 ) {
+			
+			try {
+				typeNage = ss.nextLine();
+				verifieScanner( typeNage );
+				done = 5 ;
+			}catch (ScannerException s1) {
+				System.out.println(s1.getMessage());
+			
+			}catch (InputMismatchException s3) {
+				s.nextLine();
+				System.out.println("Saisie non correcte, veuillez choisir une nage (crowl, brasse, dos, papillon ou libre) ");
+				
+				
+			}
+			
+		}
+		
+		TypeNage.setNage(typeNage);
+		System.out.println("\nNage : " + TypeNage.getTypeNage());
+		
+
+		/*informe sur la taille de la piscine, en fonction de l'épreuve choisi, (pour plus de lisibilité en terme d'échelle)*/
+		if( longueur == 100 ) {
+			System.out.println( "Piscine de 50 mètres de longueur" ) ;
+		}
+		if( longueur == 200 ) {
+			System.out.println( "Piscine de 100 mètres de longueur" ) ;
+		}
+		if( longueur == 400 ) {
+			System.out.println( "Piscine de 200 mètres de longueur" ) ;
+		}
+
+		System.out.println("\nL'épreuve va bientot commencé, prenez part des informartions données au dessus");
+		
+		
+		/*permet à l'utilisateur une petite pause pour lire les informations fournies ci dessus avant le début de l'épreuve*/
+		try {
+			Thread.sleep(20000);
+		}catch(InterruptedException i) {
+			System.out.println("InterruptedException\n");
+		}
+
+		/*chrono avant le départ*/
+		try {
+			Thread.sleep(500);
+			System.out.println("\n3\n");
+			Thread.sleep(500);
+			System.out.println("2\n");
+			Thread.sleep(500);
+			System.out.println("1\n");
+			Thread.sleep(500);
+			System.out.println("GO !\n");
+		}catch(InterruptedException i) {
+			System.out.println("InterruptedException\n");
+		}
+
+		
+		
+		
+		/*choisi une simulation en fonction de la piscine choisi*/
+		if( numPiscine == 1 ) {
+			
+			piscineHomme.faireNager( TypeNage.getTypeNage() , longueur );/*fait nager les athletes*/
+			piscineHomme.afficherPiscine();/*affiche une première fois la piscine*/
+			
+			for ( int i = 0 ; i < 250 && piscineHomme.fin() == false ; i ++ ) {/*tant que tout les nageurs ne sont pas arrivés*/
+				
+				piscineHomme.courses();/*les deplaces*/
+				piscineHomme.arriver();/*verifie les arrivées*/
+				
+				if( i % 6 == 0 ) {/*affiches la piscine toutes les 6 itérations, plus de lisibilité*/
+					piscineHomme.afficherPiscine();
+				}
+				
+			}piscineHomme.afficherPiscine();/*affiche à la fin*/
+			
+			try {
+				verifieTemps( piscineHomme );/*verifie les temps*/
+			}catch(MyException t) {
+				System.out.println(t.getMessage());
+			}
+			
+			
+			System.out.println( piscineHomme.resultas() );/*affiche les resultats et les recompenses*/
+			System.out.println( piscineHomme.recompenses() );
+		}
+		
+		if( numPiscine == 2 ) {
+			
+			piscineHomme2.faireNager( TypeNage.getTypeNage() , longueur );
+			piscineHomme2.afficherPiscine();
+			
+			for ( int i = 0 ; i < 250 && piscineHomme2.fin() == false ; i ++ ) {
+				
+				piscineHomme2.courses();
+				piscineHomme2.arriver();
+				
+				if( i % 6 == 0 ) {
+					piscineHomme2.afficherPiscine();
+				}
+				
+			}piscineHomme2.afficherPiscine();
+			
+			try {
+				verifieTemps( piscineHomme2 );
+			}catch(MyException t) {
+				System.out.println(t.getMessage());
+			}
+			
+			
+			System.out.println( piscineHomme2.resultas() );
+			System.out.println( piscineHomme2.recompenses() );
+		}
+		
+		if( numPiscine == 3 ) {
+			
+			piscineFemme.faireNager( TypeNage.getTypeNage() , longueur );
+			piscineFemme.afficherPiscine();
+			
+			for ( int i = 0 ; i < 250 && piscineFemme.fin() == false ; i ++ ) {
+				
+				piscineFemme.courses();
+				piscineFemme.arriver();
+				
+				if( i % 6 == 0 ) {
+					piscineFemme.afficherPiscine();
+				}
+				
+			}piscineFemme.afficherPiscine();
+			
+			try {
+				verifieTemps( piscineFemme );
+			}catch(MyException t) {
+				System.out.println(t.getMessage());
+			}
+			
+			
+			System.out.println( piscineFemme.resultas() );
+			System.out.println( piscineFemme.recompenses() );
+		}
+		
+		if ( numPiscine == 4 ) {
+			
+			piscineFemme2.faireNager(TypeNage.getTypeNage() , longueur );
+			piscineFemme2.afficherPiscine();
+			
+			for ( int i = 0 ; i < 250 && piscineFemme2.fin() == false ; i ++ ) {
+				
+				piscineFemme2.courses();
+				piscineFemme2.arriver();
+				
+				if( i % 6 == 0 ) {
+					piscineFemme2.afficherPiscine();
+				}
+				
+			}piscineFemme2.afficherPiscine();
+			
+			try {
+				verifieTemps( piscineFemme2 );
+			}catch(MyException t) {
+				System.out.println(t.getMessage());
+			}
+			
+			
+			System.out.println( piscineFemme2.resultas() );
+			System.out.println( piscineFemme2.recompenses() );
+		}
+		
+		
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

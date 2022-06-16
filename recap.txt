@@ -1,0 +1,129 @@
+__________________________
+CARAUX Théophane 28602627 |
+AYED Bilel                |
+__________________________|
+
+
+Thème 
+
+|=================================================|
+| Sport : natation                                |
+|                                                 |
+| Liste des joueurs, gestion des equipes          |
+| Affiche journées d'épreuves                     |
+| Gestion resultat, affiche scores                |
+|                                                 |
+| Hiérarchie des classes : au moins 3 niveaux     |
+| Nombre de classes/interfaces : 7-15             |
+|=================================================|
+
+
+Contient tab/ArrayList 
+
+Classe avec membre et methodes statiques
+
+Classe abstraite et methode abstraite 
+
+Interface 
+
+Classe constructeur clone() 
+
+Definition classe étendant Exception 
+
+Gestion des exceptions 
+
+Utilisation du pattern singleton
+
+
+
+===========================================================
+Interface :
+Temps
+
+Classe abstraite: 
+Athlete 
+Nageur 
+
+
+Classe Piscine
+8 couloirs
+Chauffage de l'eau 25C
+Epreuves
+
+
+Pays:
+USA etats unis 
+AUS australie
+RUS russie
+GDR grande bretagne
+HUN hongrie
+FRA france
+CHN chine
+ITA italie
+DEN danemark
+BRA bresil
+BEL belgique
+POL pologne
+RSA afrique du sud
+CAN canada
+SWE suede
+GER allemagne
+NED pays bas
+GR grece
+ESP espagne
+CRO croatie
+VEN venezuela
+CUB cuba
+FIN finland
+MEX mexique
+TUN tunisie
+KOR coree du nord
+CRC costa rica 
+SUI suisse
+AUt autriche
+NOR norvege
+IRL irlande
+JPN japon
+UKR ukraine
+
+
+8 couloirs
+Dopage
+Medailles
+Chauffage de l'eau 25C
+
+Epreuves :
+
+============================================
+Homme 
+100 m dos (record : 51s 85)
+100 m brasse (record : 57s 13)
+100 m papillon (record : 50s 39)
+100 m nage libre (record : 47s 05)
+Relais 4*100 4 nages (record : 3min 27s 95)
+=============================================
+Femme 
+100 m nage libre (record : 52s 70)
+100 m brasse (record : 1min 04s 93)
+100 m papillon (record : 55s 48)
+100 m dos (record : 58s 23)
+Relais 4*100 4 nages (record : 3min 52s 05)
+============================================
+
+|--------------------------------------------------------------------------------|
+|                                                                                |
+|------o------o------o-----o-----o-----o-----o-----o-----o-----o-----o-----o-----|
+|                                                                                |
+|------o------o------o-----o-----o-----o-----o-----o-----o-----o-----o-----o-----|
+|                                                                                |
+|------o------o------o-----o-----o-----o-----o-----o-----o-----o-----o-----o-----|
+|                         X                                                      |
+|------o------o------o-----o-----o-----o-----o-----o-----o-----o-----o-----o-----|
+|                                                                                |
+|------o------o------o-----o-----o-----o-----o-----o-----o-----o-----o-----o-----|
+|                             X                                                  |
+|------o------o------o-----o-----o-----o-----o-----o-----o-----o-----o-----o-----|
+|                                                                                |
+|------o------o------o-----o-----o-----o-----o-----o-----o-----o-----o-----o-----|
+|                                                                                |
+|--------------------------------------------------------------------------------|
